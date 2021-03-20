@@ -1,0 +1,14 @@
+{
+  "name": "mapfeedbackbot",
+  "version": "1.0.0",
+  "description": "Bot for collecting map feedback from a public channel and putting it in a private channel.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Brad (EchoFrost) Whitesell",
+  "license": "MIT",
+  "dependencies": {
+    "discord.js": "^12.5.1"
+  }
+}
