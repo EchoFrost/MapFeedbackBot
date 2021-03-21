@@ -5,20 +5,17 @@ const config = JSON.parse(fs.readFileSync("./config.json"));
 const client = new Discord.Client();
 
 // Check our config data before proceeding.
-if (!config.loginToken)
-{
+if (!config.loginToken) {
   console.error(`${new Date().toUTCString()}: Invalid login token. Please check your config.`);
   process.exit(9);
 }
 
-if (!config.publicChannel)
-{
+if (!config.publicChannel) {
   console.error(`${new Date().toUTCString()}: Invalid public channel id. Please check your config.`);
   process.exit(9);
 }
 
-if (!config.privateChannel)
-{
+if (!config.privateChannel) {
   console.error(`${new Date().toUTCString()}: Invalid private channel id. Please check your config.`);
   process.exit(9);
 }
@@ -87,6 +84,18 @@ client.on("message", (msg) => {
         .send(feedbackEmbed)
         .then(() => {
           console.log(`${new Date().toUTCString()}: Message copied to the private feedback channel.`);
+
+          // Let the message author know that we have successfully relayed their feedback to the private channel.
+          msg.author
+            .send("Thanks for your feedback! Your message has been relayed to the map approval team.")
+            .then(() => {
+              console.log(`${new Date().toUTCString()}: Confirmation message sent to ${msg.author.tag} (${msg.author.id}).`);
+            })
+            .catch((error) => {
+              console.error(`${new Date().toUTCString()}: Failed to send confirmation message to ${msg.author.tag}. ${error}`);
+              return;
+            });
+
           // Delete the original message in the public feedback channel. We only do this if we copied successfully.
           msg
             .delete()
